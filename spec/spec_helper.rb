@@ -1,5 +1,6 @@
 require 'bundler/setup'
 require 'behave_fun'
+require 'spec_tasks'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

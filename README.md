@@ -1,8 +1,11 @@
 # BehaveFun
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/behave_fun`. To experiment with that code, run `bin/console` for an interactive prompt.
+BehaveFun is a behavior tree library for Ruby.
 
-TODO: Delete this and the text above, and describe your gem
+Main features:
+
+* Build behavior tree from Ruby and JSON.
+* Serialize tree status data and can be restored later.
 
 ## Installation
 
@@ -22,7 +25,33 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+To build a behavior tree:
+
+``` ruby
+    # ruby dsl
+    tree = BehaveFun.build_tree { success }
+    # from hash
+    tree = BehaveFun.build_tree_from_hash(type: :success)
+    # from json
+    tree = BehaveFun.build_tree_from_json(json_string)
+```
+
+To run a tree:
+
+``` ruby
+    tree.data = { ... } # provide your data (context) for the tree
+    tree.run
+    tree.status # :running, :succeeded or :failed
+```
+
+To dump and restore status:
+
+``` ruby
+    status = tree.dump_status 
+    tree.restore_status(status)
+```
+
+For more detail, see spec examples.
 
 ## Development
 
