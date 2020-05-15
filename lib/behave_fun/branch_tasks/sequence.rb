@@ -31,5 +31,7 @@ module BehaveFun
     def serializable_status_fields
       [:current_child_idx]
     end
+
+    add_to_task_builder
   end
 end

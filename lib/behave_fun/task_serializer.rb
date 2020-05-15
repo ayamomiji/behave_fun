@@ -1,7 +1,7 @@
 module BehaveFun
   module TaskSerializer
     def name
-      self.class.name.demodulize.underscore
+      self.class.task_name
     end
 
     def as_json

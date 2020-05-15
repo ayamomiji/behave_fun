@@ -36,6 +36,48 @@ To build a behavior tree:
     tree = BehaveFun.build_tree_from_json(json_string)
 ```
 
+To build a complex behavior tree:
+
+``` ruby
+    # write_spec, write_code, run_spec, git_push and release_gem are customized tasks
+    tree = BehaveFun.build_tree {
+      sequence {
+        until_success {
+          sequence {
+            write_spec
+            write_code
+            run_spec
+          }
+        }
+        git_push
+        release_gem
+      }
+    }
+```
+
+To create customized task, create a class that extends `BehaveFun::Task`. Don't forget call `running` `success` or `fail` in `#execute` method at the end.
+
+``` ruby
+    # a task that increase data by 1, always success
+    class Counter < BehaveFun::Task
+      def execute
+        tree.data += 1
+        success
+      end
+
+      add_to_task_builder
+    end
+
+    # a task that detect tree data is even or not
+    class IsCounterEven < BehaveFun::Task
+      def execute
+        tree.data.even? ? success : fail
+      end
+
+      add_to_task_builder
+    end
+```
+
 To run a tree:
 
 ``` ruby

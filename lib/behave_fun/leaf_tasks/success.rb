@@ -3,5 +3,7 @@ module BehaveFun
     def execute
       success
     end
+
+    add_to_task_builder
   end
 end

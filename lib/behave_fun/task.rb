@@ -11,6 +11,14 @@ module BehaveFun
       @status = :fresh
     end
 
+    def self.task_name
+      name.demodulize.underscore
+    end
+
+    def self.add_to_task_builder(name = task_name)
+      BehaveFun::TaskBuilder.add_task_type(self, name: name)
+    end
+
     def control=(control)
       @control = control
       @tree = control.tree

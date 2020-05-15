@@ -24,5 +24,7 @@ module BehaveFun
     def serializable_status_fields
       [:counter]
     end
+
+    add_to_task_builder
   end
 end
