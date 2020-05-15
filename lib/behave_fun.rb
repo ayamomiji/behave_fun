@@ -17,7 +17,7 @@ module BehaveFun
 
   def build_tree_from_hash(hash)
     build_tree do
-      build_from_hash(hash)
+      build_from_hash(hash[:root])
     end
   end
 

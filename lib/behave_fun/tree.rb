@@ -38,7 +38,10 @@ module BehaveFun
     end
 
     def as_json
-      root.as_json
+      {
+        version: 1,
+        root: root.as_json
+      }
     end
 
     def dump_status
