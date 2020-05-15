@@ -24,5 +24,17 @@ RSpec.describe BehaveFun do
       expect(tree.root.children[1].params).to eq(duration: 3)
       expect(tree.root.children[2]).to be_a(BehaveFun::LeafTasks::Failure)
     end
+
+    it 'can build a more complex tree with guard' do
+      tree = BehaveFun.build_tree {
+        sequence {
+          guard_with { success }
+          success
+        }
+      }
+
+      expect(tree).to be_a(BehaveFun::Tree)
+      expect(tree.root.guard).to be_a(BehaveFun::LeafTasks::Success)
+    end
   end
 end

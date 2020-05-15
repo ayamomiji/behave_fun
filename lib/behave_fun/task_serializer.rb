@@ -7,6 +7,7 @@ module BehaveFun
     def as_json
       data = { type: name }
       data.merge!(params: params) if params.any?
+      data.merge!(guard_with: guard.as_json) if guard
       data.merge!(children: children.map { _1.as_json }) if children.any?
       data
     end

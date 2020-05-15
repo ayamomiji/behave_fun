@@ -24,6 +24,28 @@ RSpec.describe BehaveFun do
       expect(tree.root.children[1].params).to eq(duration: 3)
       expect(tree.root.children[2]).to be_a(BehaveFun::LeafTasks::Failure)
     end
+
+    it 'works with guard' do
+      original_tree = BehaveFun.build_tree {
+        sequence {
+          guard_with { success }
+          success
+        }
+      }
+
+      json = BehaveFun.to_json(original_tree)
+      # ensure it is valid json
+      expect {
+        ActiveSupport::JSON.decode(json)
+      }.not_to raise_error
+      # restore from json
+      tree = BehaveFun.build_tree_from_json(json)
+
+      expect(tree).to be_a(BehaveFun::Tree)
+      expect(tree.root).to be_a(BehaveFun::BranchTasks::Sequence)
+      expect(tree.root.guard).to be_a(BehaveFun::LeafTasks::Success)
+      expect(tree.root.children[0]).to be_a(BehaveFun::LeafTasks::Success)
+    end
   end
 
   describe '.dump_status and .restore_status' do

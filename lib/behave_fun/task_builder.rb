@@ -16,11 +16,19 @@ module BehaveFun
       end
     end
 
+    def guard_with(&block)
+      builder = TaskBuilder.new(Tree.new)
+      builder.instance_eval(&block)
+      control.guard = builder.control.root
+    end
+
     def build_from_hash(task_hash)
-      type, params, children = task_hash.values_at(:type, :params, :children)
+      type, params, guard_with, children =
+        task_hash.values_at(:type, :params, :guard_with, :children)
       params ||= {}
       children ||= []
       send type, params do
+        guard_with { build_from_hash(guard_with) } if guard_with
         children.each { build_from_hash(_1) }
       end
     end
