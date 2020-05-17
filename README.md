@@ -13,17 +13,21 @@ Main features:
 
 Add this line to your application's Gemfile:
 
-```ruby
+``` ruby
 gem 'behave_fun'
 ```
 
 And then execute:
 
+```
 $ bundle install
+```
 
 Or install it yourself as:
 
+```
 $ gem install behave_fun
+```
 
 ## Usage
 
