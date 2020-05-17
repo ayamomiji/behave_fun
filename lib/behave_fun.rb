@@ -9,6 +9,12 @@ loader.setup
 module BehaveFun
   module_function
 
+  def build_task(&block)
+    task = build_tree(&block).root
+    task.control = nil
+    task
+  end
+
   def build_tree(&block)
     builder = TaskBuilder.new(Tree.new)
     builder.instance_eval(&block)

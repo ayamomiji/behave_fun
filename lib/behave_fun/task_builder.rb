@@ -22,6 +22,11 @@ module BehaveFun
       control.guard = builder.control.root
     end
 
+    def include(task)
+      cloned_task = BehaveFun.build_task { build_from_hash(task.as_json) }
+      @control.add_child(cloned_task)
+    end
+
     def build_from_hash(task_hash)
       type_name, params, guard_with, children =
         task_hash.values_at(:type, :params, :guard_with, :children)
