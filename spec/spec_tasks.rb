@@ -49,7 +49,7 @@ class SetTask < BehaveFun::Task
   add_to_task_builder :set
 end
 
-class IsDataEqualsTask < BehaveFun::Task
+class IsValueEqualsTask < BehaveFun::Task
   attr_accessor :value
 
   def initialize(value: )
@@ -58,8 +58,8 @@ class IsDataEqualsTask < BehaveFun::Task
   end
 
   def execute
-    tree.data == value ? success : fail
+    context[:value] == value ? success : fail
   end
 
-  add_to_task_builder :is_data_equals
+  add_to_task_builder :is_value_equals
 end

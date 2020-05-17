@@ -1,6 +1,6 @@
 module BehaveFun
   class Tree < Task
-    attr_accessor :root, :data
+    attr_accessor :root
 
     def root=(root)
       @root = root
@@ -9,6 +9,11 @@ module BehaveFun
 
     def tree
       self
+    end
+
+    def context=(context)
+      @context = context
+      @root.context = context
     end
 
     def execute

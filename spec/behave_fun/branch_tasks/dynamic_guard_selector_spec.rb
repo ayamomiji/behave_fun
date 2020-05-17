@@ -7,22 +7,20 @@ RSpec.describe BehaveFun::BranchTasks::DynamicGuardSelector do
     tree = BehaveFun.build_tree {
       dynamic_guard_selector {
         sequence {
+          guard_with { is_value_equals value: 'alive' }
           set value: 'alive'
           invert { wait duration: 9 } # simulate a long task
         }
         sequence {
+          guard_with { is_value_equals value: 'dead' }
           set value: 'dead'
           wait duration: 9 # simulate a long task
         }
       }
     }
-    is_alive = BehaveFun.build_tree { is_data_equals value: 'alive' }
-    is_dead = BehaveFun.build_tree { is_data_equals value: 'dead' }
-    tree.root.children[0].guard = is_alive
-    tree.root.children[1].guard = is_dead
 
     # set initial data
-    tree.data = 'alive'
+    tree.context = { value: 'alive' }
     # run several times before task ended...
     5.times do
       tree.run
@@ -30,7 +28,7 @@ RSpec.describe BehaveFun::BranchTasks::DynamicGuardSelector do
       expect(tree).to be_running
     end
     # then change the data
-    tree.data = 'dead'
+    tree.context = { value: 'dead' }
     # it should switch immediately
     5.times do
       tree.run
@@ -38,7 +36,7 @@ RSpec.describe BehaveFun::BranchTasks::DynamicGuardSelector do
       expect(tree).to be_running
     end
     # trying to switch back
-    tree.data = 'alive'
+    tree.context = { value: 'alive' }
     9.times do
       tree.run
       expect(SetTask.value).to eq('alive')

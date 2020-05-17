@@ -2,6 +2,8 @@
 
 BehaveFun is a behavior tree library for Ruby.
 
+Inspired by [gdx-ai's behavior trees](https://github.com/libgdx/gdx-ai/wiki/Behavior-Trees).
+
 Main features:
 
 * Build behavior tree from Ruby and JSON.
@@ -17,80 +19,80 @@ gem 'behave_fun'
 
 And then execute:
 
-    $ bundle install
+$ bundle install
 
 Or install it yourself as:
 
-    $ gem install behave_fun
+$ gem install behave_fun
 
 ## Usage
 
 To build a behavior tree:
 
 ``` ruby
-    # ruby dsl
-    tree = BehaveFun.build_tree { success }
-    # from hash
-    tree = BehaveFun.build_tree_from_hash(type: :success)
-    # from json
-    tree = BehaveFun.build_tree_from_json(json_string)
+# ruby dsl
+tree = BehaveFun.build_tree { success }
+# from hash
+tree = BehaveFun.build_tree_from_hash(type: :success)
+# from json
+tree = BehaveFun.build_tree_from_json(json_string)
 ```
 
 To build a complex behavior tree:
 
 ``` ruby
-    # write_spec, write_code, run_spec, git_push and release_gem are customized tasks
-    tree = BehaveFun.build_tree {
+# write_spec, write_code, run_spec, git_push and release_gem are customized tasks
+tree = BehaveFun.build_tree {
+  sequence {
+    until_success {
       sequence {
-        until_success {
-          sequence {
-            write_spec
-            write_code
-            run_spec
-          }
-        }
-        git_push
-        release_gem
+        write_spec
+        write_code
+        run_spec
       }
     }
+    git_push
+    release_gem
+  }
+}
 ```
 
 To create customized task, create a class that extends `BehaveFun::Task`. Don't forget call `running` `success` or `fail` in `#execute` method at the end.
 
 ``` ruby
-    # a task that increase data by 1, always success
-    class Counter < BehaveFun::Task
-      def execute
-        tree.data += 1
-        success
-      end
+# a task that increase data by 1, always success
+class Counter < BehaveFun::Task
+  def execute
+    context[:counter] += 1
+    success
+  end
 
-      add_to_task_builder
-    end
+  add_to_task_builder
+end
 
-    # a task that detect tree data is even or not
-    class IsCounterEven < BehaveFun::Task
-      def execute
-        tree.data.even? ? success : fail
-      end
+# a task that detect tree data is even or not
+class IsCounterEven < BehaveFun::Task
+  def execute
+    context[:counter].even? ? success : fail
+  end
 
-      add_to_task_builder
-    end
+  add_to_task_builder
+end
 ```
 
 To run a tree:
 
 ``` ruby
-    tree.data = { ... } # provide your data (context) for the tree
-    tree.run
-    tree.status # :running, :succeeded or :failed
+tree.context = { ... } # provide your context (data) for the tree
+tree.run
+tree.status # :running, :succeeded or :failed
 ```
 
 To dump and restore status:
 
 ``` ruby
-    status = tree.dump_status 
-    tree.restore_status(status)
+status = tree.dump_status # a hash that contains entire tree's status
+tree.restore_status(status)
 ```
 
 For more detail, see spec examples.

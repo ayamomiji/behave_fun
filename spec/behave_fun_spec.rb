@@ -6,7 +6,6 @@ RSpec.describe BehaveFun do
       expect(tree).to be_a(BehaveFun::Tree)
       expect(tree.root).to be_a(BehaveFun::LeafTasks::Success)
       expect(tree.root.control).to be(tree)
-      expect(tree.root.tree).to be(tree)
     end
 
     it 'can build a complex tree' do

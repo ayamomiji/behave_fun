@@ -2,8 +2,8 @@ module BehaveFun
   class Task
     include TaskSerializer
 
-    attr_accessor :guard
-    attr_reader :tree, :control, :children, :params, :status
+    attr_accessor :control, :guard
+    attr_reader :context, :children, :params, :status
 
     def initialize(**params)
       @params = params
@@ -19,9 +19,9 @@ module BehaveFun
       BehaveFun::TaskBuilder.add_task_type(self, name: name)
     end
 
-    def control=(control)
-      @control = control
-      @tree = control.tree
+    def context=(context)
+      @context = context
+      children.each { _1.context = context }
     end
 
     def running
@@ -71,7 +71,7 @@ module BehaveFun
     def guard_passed?
       return true unless guard
 
-      guard.data = tree.data
+      guard.context = context
       guard.reset
       guard.run
 
