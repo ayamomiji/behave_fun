@@ -23,7 +23,7 @@ module BehaveFun
     end
 
     def include(task)
-      cloned_task = BehaveFun.build_task { build_from_hash(task.as_json) }
+      cloned_task = task.dup
       @control.add_child(cloned_task)
     end
 

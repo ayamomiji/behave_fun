@@ -119,5 +119,11 @@ module BehaveFun
       @status = :fresh
       children.each { |child| child.reset }
     end
+
+    def dup
+      cloned = self.class.new(params)
+      children.each { cloned.add_child(_1.dup) }
+      cloned
+    end
   end
 end
