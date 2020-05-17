@@ -21,6 +21,13 @@ module BehaveFun
     builder.control
   end
 
+  def build_task_from_hash(hash)
+    tree = build_tree do
+      build_from_hash(hash)
+    end
+    tree.root
+  end
+
   def build_tree_from_hash(hash)
     build_tree do
       build_from_hash(hash[:root])
