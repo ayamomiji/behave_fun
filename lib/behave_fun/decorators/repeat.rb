@@ -2,7 +2,7 @@ module BehaveFun
   class Decorators::Repeat < Decorator
     attr_accessor :counter
 
-    def initialize(times: )
+    def initialize(times: -1)
       super
       @times = times
     end
@@ -13,6 +13,8 @@ module BehaveFun
     end
 
     def child_success
+      return @children[0].reset if @times == -1
+
       @counter += 1
       if @counter < @times
         @children[0].reset
