@@ -10,6 +10,11 @@ module BehaveFun
       @current_child.run
     end
 
+    def start
+      super
+      @current_child = nil
+    end
+
     def child_running
       running
     end

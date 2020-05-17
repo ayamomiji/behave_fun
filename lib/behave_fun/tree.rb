@@ -1,6 +1,6 @@
 module BehaveFun
   class Tree < Task
-    attr_accessor :root
+    attr_reader :root
 
     def root=(root)
       @root = root
