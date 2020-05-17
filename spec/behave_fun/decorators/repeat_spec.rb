@@ -15,17 +15,7 @@ RSpec.describe BehaveFun::Decorators::Repeat do
     expect { tree.run }.to raise_error(BehaveFun::Error)
   end
 
-  it 'repeats forever if times == -1 or omitted' do
-    tree = BehaveFun.build_tree {
-      repeat(times: -1) { success }
-    }
-    3.times do
-      tree.run
-      # the counter should not be increased
-      expect(tree.root.counter).to eq(0)
-      expect(tree).to be_running
-    end
-
+  it 'repeats forever if times was omitted' do
     tree = BehaveFun.build_tree {
       repeat { success }
     }
