@@ -1,8 +1,12 @@
 require 'spec_helper'
 
 RSpec.describe BehaveFun::Decorators::AlwaysFail do
+  let(:builder) {
+    BehaveFun::TaskBuilderFactory.new
+  }
+
   it 'should fail' do
-    tree = BehaveFun.build_tree {
+    tree = builder.build_tree {
       always_fail { success }
     }
     tree.run

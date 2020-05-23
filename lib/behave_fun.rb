@@ -9,42 +9,8 @@ loader.setup
 module BehaveFun
   module_function
 
-  def build_task(&block)
-    task = build_tree(&block).root
-    task.control = nil
-    task
-  end
-
-  def build_tree(&block)
-    builder = TaskBuilder.new(Tree.new)
-    builder.instance_eval(&block)
-    builder.control
-  end
-
-  def build_task_from_hash(hash)
-    tree = build_tree do
-      build_from_hash(hash)
-    end
-    tree.root
-  end
-
-  def build_tree_from_hash(hash)
-    build_tree do
-      build_from_hash(hash[:root])
-    end
-  end
-
-  def build_tree_from_json(json)
-    hash = ActiveSupport::JSON.decode(json).deep_symbolize_keys
-    build_tree_from_hash(hash)
-  end
-
-  def as_json(tree)
-    tree.as_json
-  end
-
-  def to_json(tree)
-    ActiveSupport::JSON.encode(as_json(tree))
+  def build_builder(&block)
+    BehaveFun::TaskBuilderFactory.new(&block)
   end
 
   class Error < StandardError; end

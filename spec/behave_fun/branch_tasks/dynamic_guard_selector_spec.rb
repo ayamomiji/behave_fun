@@ -1,10 +1,17 @@
 require 'spec_helper'
 
 RSpec.describe BehaveFun::BranchTasks::DynamicGuardSelector do
+  let(:builder) {
+    BehaveFun::TaskBuilderFactory.new {
+      add_task_type SetTask, name: :set
+      add_task_type IsValueEqualsTask, name: :is_value_equals
+    }
+  }
+
   it 'switch current child according guard result' do
     SetTask.reset_value
 
-    tree = BehaveFun.build_tree {
+    tree = builder.build_tree {
       dynamic_guard_selector {
         sequence {
           guard_with { is_value_equals value: 'alive' }

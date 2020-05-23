@@ -13,16 +13,12 @@ class CounterTask < BehaveFun::Task
   def self.reset_counter
     Thread.current[:counter] = 0
   end
-
-  add_to_task_builder :counter
 end
 
 class IsCounterEvenTask < BehaveFun::Task
   def execute
     Thread.current[:counter].even? ? success : fail
   end
-
-  add_to_task_builder :is_counter_even
 end
 
 class SetTask < BehaveFun::Task
@@ -45,8 +41,6 @@ class SetTask < BehaveFun::Task
   def self.reset_value
     Thread.current[:value] = nil
   end
-
-  add_to_task_builder :set
 end
 
 class IsValueEqualsTask < BehaveFun::Task
@@ -60,6 +54,4 @@ class IsValueEqualsTask < BehaveFun::Task
   def execute
     context[:value] == value ? success : fail
   end
-
-  add_to_task_builder :is_value_equals
 end

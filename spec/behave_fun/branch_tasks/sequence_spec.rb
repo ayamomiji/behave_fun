@@ -1,8 +1,12 @@
 require 'spec_helper'
 
 RSpec.describe BehaveFun::BranchTasks::Sequence do
+  let(:builder) {
+    BehaveFun::TaskBuilderFactory.new
+  }
+
   it 'runs until meet any failed' do
-    tree = BehaveFun.build_tree {
+    tree = builder.build_tree {
       sequence {
         success
       }
@@ -11,7 +15,7 @@ RSpec.describe BehaveFun::BranchTasks::Sequence do
     tree.run
     expect(tree).to be_succeeded
 
-    tree = BehaveFun.build_tree {
+    tree = builder.build_tree {
       sequence {
         success
         failure

@@ -1,8 +1,14 @@
 require 'spec_helper'
 
 RSpec.describe BehaveFun::BranchTasks::RandomSelector do
+  let(:builder) {
+    BehaveFun::TaskBuilderFactory.new {
+      add_task_type CounterTask, name: :counter
+    }
+  }
+
   it 'runs until running or succeeded' do
-    tree = BehaveFun.build_tree {
+    tree = builder.build_tree {
       random_selector {
         always_fail { counter }
         always_succeed { counter }

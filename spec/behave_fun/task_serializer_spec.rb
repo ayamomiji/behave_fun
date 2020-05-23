@@ -1,7 +1,11 @@
 RSpec.describe BehaveFun do
+  let(:builder) {
+    BehaveFun.build_builder {}
+  }
+
   describe 'Task#as_json and .build_tree_from_json' do
     it 'dumpable and restorable' do
-      original_tree = BehaveFun.build_tree {
+      original_tree = builder.build_tree {
         sequence {
           success
           wait duration: 3
@@ -9,13 +13,13 @@ RSpec.describe BehaveFun do
         }
       }
 
-      json = BehaveFun.to_json(original_tree)
+      json = builder.to_json(original_tree)
       # ensure it is valid json
       expect {
         ActiveSupport::JSON.decode(json)
       }.not_to raise_error
       # restore from json
-      tree = BehaveFun.build_tree_from_json(json)
+      tree = builder.build_tree_from_json(json)
 
       expect(tree).to be_a(BehaveFun::Tree)
       expect(tree.root).to be_a(BehaveFun::BranchTasks::Sequence)
@@ -26,20 +30,20 @@ RSpec.describe BehaveFun do
     end
 
     it 'works with guard' do
-      original_tree = BehaveFun.build_tree {
+      original_tree = builder.build_tree {
         sequence {
           guard_with { success }
           success
         }
       }
 
-      json = BehaveFun.to_json(original_tree)
+      json = builder.to_json(original_tree)
       # ensure it is valid json
       expect {
         ActiveSupport::JSON.decode(json)
       }.not_to raise_error
       # restore from json
-      tree = BehaveFun.build_tree_from_json(json)
+      tree = builder.build_tree_from_json(json)
 
       expect(tree).to be_a(BehaveFun::Tree)
       expect(tree.root).to be_a(BehaveFun::BranchTasks::Sequence)
@@ -50,7 +54,7 @@ RSpec.describe BehaveFun do
 
   describe '.build_task_from_hash' do
     it 'builds task' do
-      original_tree = BehaveFun.build_task {
+      original_tree = builder.build_task {
         sequence {
           success
           wait duration: 3
@@ -58,7 +62,7 @@ RSpec.describe BehaveFun do
         }
       }
       hash = original_tree.as_json
-      task = BehaveFun.build_task_from_hash(hash)
+      task = builder.build_task_from_hash(hash)
       expect(task).to be_a(BehaveFun::BranchTasks::Sequence)
       expect(task.children[0]).to be_a(BehaveFun::LeafTasks::Success)
       expect(task.children[1]).to be_a(BehaveFun::LeafTasks::Wait)
@@ -68,7 +72,7 @@ RSpec.describe BehaveFun do
 
   describe '.dump_status and .restore_status' do
     it 'dumpable and restorable' do
-      original_tree = BehaveFun.build_tree {
+      original_tree = builder.build_tree {
         sequence {
           success
           wait duration: 3
@@ -85,7 +89,7 @@ RSpec.describe BehaveFun do
       status_data = original_tree.dump_status
 
       # clone tree
-      tree = BehaveFun.build_tree_from_json(BehaveFun.to_json(original_tree))
+      tree = original_tree.clone
 
       # restore from json
       tree.restore_status(status_data)

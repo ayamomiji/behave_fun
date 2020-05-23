@@ -34,19 +34,22 @@ $ gem install behave_fun
 To build a behavior tree:
 
 ``` ruby
+builder = BehaveFun.build_builder {
+  # add_task_type YourCustomTask
+}
 # ruby dsl
-tree = BehaveFun.build_tree { success }
+tree = builder.build_tree { success }
 # from hash
-tree = BehaveFun.build_tree_from_hash(type: :success)
+tree = builder.build_tree_from_hash(type: :success)
 # from json
-tree = BehaveFun.build_tree_from_json(json_string)
+tree = builder.build_tree_from_json(json_string)
 ```
 
 To build a complex behavior tree:
 
 ``` ruby
 # write_spec, write_code, run_spec, git_push and release_gem are customized tasks
-tree = BehaveFun.build_tree {
+tree = builder.build_tree {
   sequence {
     until_success {
       sequence {

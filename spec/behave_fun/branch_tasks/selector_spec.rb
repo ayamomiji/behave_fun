@@ -1,8 +1,12 @@
 require 'spec_helper'
 
 RSpec.describe BehaveFun::BranchTasks::Selector do
+  let(:builder) {
+    BehaveFun::TaskBuilderFactory.new
+  }
+
   it 'runs until meet any succeeded' do
-    tree = BehaveFun.build_tree {
+    tree = builder.build_tree {
       selector {
         failure
         success
@@ -12,7 +16,7 @@ RSpec.describe BehaveFun::BranchTasks::Selector do
     tree.run
     expect(tree).to be_succeeded
 
-    tree = BehaveFun.build_tree {
+    tree = builder.build_tree {
       selector {
         failure
       }

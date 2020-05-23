@@ -1,8 +1,12 @@
 require 'spec_helper'
 
 RSpec.describe BehaveFun::Decorators::UntilFail do
+  let(:builder) {
+    BehaveFun::TaskBuilderFactory.new
+  }
+
   it 'should repeat until fail' do
-    tree = BehaveFun.build_tree {
+    tree = builder.build_tree {
       until_fail { invert { wait(duration: 3) } }
     }
     3.times do

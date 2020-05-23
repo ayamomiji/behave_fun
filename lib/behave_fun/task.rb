@@ -5,7 +5,7 @@ module BehaveFun
     attr_accessor :control, :guard
     attr_reader :context, :children, :params, :status
 
-    def initialize(**params)
+    def initialize(params = {})
       @params = params
       @children = []
       @status = :fresh
@@ -13,10 +13,6 @@ module BehaveFun
 
     def self.task_name
       name.demodulize.underscore
-    end
-
-    def self.add_to_task_builder(name = task_name)
-      BehaveFun::TaskBuilder.add_task_type(self, name: name)
     end
 
     def context=(context)

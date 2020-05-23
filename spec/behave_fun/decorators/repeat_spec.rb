@@ -1,8 +1,12 @@
 require 'spec_helper'
 
 RSpec.describe BehaveFun::Decorators::Repeat do
+  let(:builder) {
+    BehaveFun::TaskBuilderFactory.new
+  }
+
   it 'should repeat given times' do
-    tree = BehaveFun.build_tree {
+    tree = builder.build_tree {
       repeat(times: 3) { success }
     }
     tree.run
@@ -16,7 +20,7 @@ RSpec.describe BehaveFun::Decorators::Repeat do
   end
 
   it 'repeats forever if times was omitted' do
-    tree = BehaveFun.build_tree {
+    tree = builder.build_tree {
       repeat { success }
     }
     3.times do

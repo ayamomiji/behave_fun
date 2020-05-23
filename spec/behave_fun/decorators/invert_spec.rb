@@ -1,9 +1,13 @@
 require 'spec_helper'
 
 RSpec.describe BehaveFun::Decorators::Invert do
+  let(:builder) {
+    BehaveFun::TaskBuilderFactory.new
+  }
+
   context 'given succeeded task' do
     it 'should invert result' do
-      tree = BehaveFun.build_tree {
+      tree = builder.build_tree {
         invert { success }
       }
       tree.run
@@ -13,7 +17,7 @@ RSpec.describe BehaveFun::Decorators::Invert do
 
   context 'given failed task' do
     it 'should invert result' do
-      tree = BehaveFun.build_tree {
+      tree = builder.build_tree {
         invert { failure }
       }
       tree.run
