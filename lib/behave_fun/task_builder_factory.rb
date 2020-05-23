@@ -51,6 +51,7 @@ module BehaveFun
     end
 
     def build_task_from_hash(hash)
+      hash = hash.deep_symbolize_keys
       tree = build_tree do
         build_from_hash(hash)
       end
@@ -58,6 +59,7 @@ module BehaveFun
     end
 
     def build_tree_from_hash(hash)
+      hash = hash.deep_symbolize_keys
       build_tree do
         build_from_hash(hash[:root])
       end

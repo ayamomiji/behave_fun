@@ -66,11 +66,43 @@ RSpec.describe BehaveFun::TaskBuilderFactory do
     end
   end
 
-  describe '.build_task' do
+  describe '#build_task' do
     it 'returns built task' do
       task = builder.build_task { success }
       expect(task).to be_a(BehaveFun::LeafTasks::Success)
       expect(task.control).to be_nil
+    end
+  end
+
+  describe '#build_tree_from_hash' do
+    it 'builds tree from hash' do
+      tree_data = {
+        'version': 1,
+        'root' => {
+          'type' => 'sequence',
+          'children' => [
+            { 'type' => 'success' }
+          ]
+        }
+      }
+      tree = builder.build_tree_from_hash(tree_data)
+      expect(tree).to be_a(BehaveFun::Tree)
+      expect(tree.root).to be_a(BehaveFun::BranchTasks::Sequence)
+      expect(tree.root.children[0]).to be_a(BehaveFun::LeafTasks::Success)
+    end
+  end
+
+  describe '#build_task_from_hash' do
+    it 'builds tree from hash' do
+      task_data = {
+        'type' => 'sequence',
+        'children' => [
+          { 'type' => 'success' }
+        ]
+      }
+      task = builder.build_task_from_hash(task_data)
+      expect(task).to be_a(BehaveFun::BranchTasks::Sequence)
+      expect(task.children[0]).to be_a(BehaveFun::LeafTasks::Success)
     end
   end
 end
