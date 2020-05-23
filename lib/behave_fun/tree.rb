@@ -56,5 +56,11 @@ module BehaveFun
     def restore_status(data)
       root.restore_status(data)
     end
+
+    def dup
+      cloned = self.class.new(params)
+      cloned.root = root.dup
+      cloned
+    end
   end
 end

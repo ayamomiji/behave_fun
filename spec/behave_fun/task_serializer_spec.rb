@@ -89,7 +89,7 @@ RSpec.describe BehaveFun do
       status_data = original_tree.dump_status
 
       # clone tree
-      tree = original_tree.clone
+      tree = original_tree.dup
 
       # restore from json
       tree.restore_status(status_data)
