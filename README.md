@@ -64,7 +64,7 @@ tree = builder.build_tree {
 }
 ```
 
-To create customized task, create a class that extends `BehaveFun::Task`. Don't forget call `running` `success` or `fail` in `#execute` method at the end.
+To create customized task, create a class that extends `BehaveFun::Task` (or use a lambda if only need to overwrite `#execute` method). Don't forget call `running` `success` or `fail` in `#execute` method at the end.
 
 ``` ruby
 # a task that increase data by 1, always success
@@ -73,18 +73,17 @@ class Counter < BehaveFun::Task
     context[:counter] += 1
     success
   end
-
-  add_to_task_builder
 end
 
 # a task that detect tree data is even or not
-class IsCounterEven < BehaveFun::Task
-  def execute
-    context[:counter].even? ? success : fail
-  end
+is_counter_even = -> { context[:counter].even? ? success : fail }
 
-  add_to_task_builder
-end
+# add these tasks to your builder
+builder = BehaveFun.build_builder {
+  add_task_type Counter
+  add_lambda_task_type :is_counter_even, &is_counter_even
+}
+builder.build_tree { counter }
 ```
 
 To run a tree:

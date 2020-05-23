@@ -27,6 +27,17 @@ module BehaveFun
       tasks[name.to_sym] = type
     end
 
+    def add_lambda_task_type(task_name, &block)
+      type = Class.new(Task) do
+        def name
+          task_name
+        end
+
+        define_method(:execute, &block)
+      end
+      tasks[task_name.to_sym] = type
+    end
+
     def build_task(&block)
       task = build_tree(&block).root
       task.control = nil
