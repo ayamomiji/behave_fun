@@ -68,6 +68,13 @@ RSpec.describe BehaveFun do
       expect(task.children[1]).to be_a(BehaveFun::LeafTasks::Wait)
       expect(task.children[2]).to be_a(BehaveFun::LeafTasks::Failure)
     end
+
+    it 'coerces params' do
+      hash = { type: 'wait', params: { duration: '3' } }
+      task = builder.build_task_from_hash(hash)
+      expect(task).to be_a(BehaveFun::LeafTasks::Wait)
+      expect(task.params[:duration]).to eq(3)
+    end
   end
 
   describe '.dump_status and .restore_status' do

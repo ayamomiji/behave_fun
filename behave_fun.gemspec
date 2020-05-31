@@ -27,4 +27,5 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'zeitwerk', '~> 2.3.0'
   spec.add_dependency 'activesupport', '~> 6.0.0'
+  spec.add_dependency 'dry-types', '~> 1.4.0'
 end

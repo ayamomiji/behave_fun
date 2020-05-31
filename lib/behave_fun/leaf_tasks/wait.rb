@@ -19,5 +19,13 @@ module BehaveFun
     def serializable_status_fields
       [:counter]
     end
+
+    def params=(params)
+      @params = ParamsSchema[params]
+    end
+
+    ParamsSchema = Types::Hash.schema(
+      duration: Types::Coercible::Integer
+    )
   end
 end

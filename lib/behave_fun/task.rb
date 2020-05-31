@@ -2,11 +2,11 @@ module BehaveFun
   class Task
     include TaskSerializer
 
-    attr_accessor :control, :guard
-    attr_reader :context, :children, :params, :status
+    attr_accessor :control, :guard, :params
+    attr_reader :context, :children, :status
 
     def initialize(params = {})
-      @params = params
+      self.params = params
       @children = []
       @status = :fresh
     end
