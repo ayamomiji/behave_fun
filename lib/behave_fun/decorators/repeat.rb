@@ -13,6 +13,7 @@ module BehaveFun
       @counter += 1
       if @counter < params[:times]
         @children[0].reset
+        execute
       else
         success
       end

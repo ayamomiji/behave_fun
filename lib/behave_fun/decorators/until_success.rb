@@ -3,5 +3,10 @@ module BehaveFun
     def child_success
       success
     end
+
+    def child_fail
+      reset
+      execute
+    end
   end
 end

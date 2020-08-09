@@ -1,23 +1,13 @@
 class CounterTask < BehaveFun::Task
   def execute
-    thread = Thread.current
-    thread[:counter] ||= 0
-    thread[:counter] += 1
+    context[:counter] += 1
     success
-  end
-
-  def self.counter
-    Thread.current[:counter]
-  end
-
-  def self.reset_counter
-    Thread.current[:counter] = 0
   end
 end
 
 class IsCounterEvenTask < BehaveFun::Task
   def execute
-    Thread.current[:counter].even? ? success : fail
+    context[:counter].even? ? success : fail
   end
 end
 

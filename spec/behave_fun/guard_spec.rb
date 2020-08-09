@@ -30,19 +30,13 @@ RSpec.describe BehaveFun::Task do
     end
 
     it 'caches guard result while task running' do
-      CounterTask.reset_counter
-
       guard = builder.build_tree { counter }
       task = builder.build_tree { wait duration: 3 }
       task.guard = guard
 
+      task.context = { counter: 0 }
       3.times { task.run }
-      expect(CounterTask.counter).to eq(1)
-
-      task.reset
-
-      3.times { task.run }
-      expect(CounterTask.counter).to eq(2)
+      expect(task.context[:counter]).to eq(1)
     end
   end
 end
