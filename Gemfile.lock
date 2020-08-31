@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    behave_fun (0.3.0)
+    behave_fun (0.3.1)
       activesupport (~> 6.0)
       dry-types (~> 1.4)
       zeitwerk (~> 2.3)
